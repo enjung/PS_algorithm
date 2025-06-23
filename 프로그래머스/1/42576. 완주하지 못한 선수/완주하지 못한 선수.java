@@ -2,26 +2,20 @@ import java.util.*;
 
 class Solution {
     public String solution(String[] participant, String[] completion) {
-        
         String answer = "";
-        HashMap <String,Integer> part = new HashMap<String,Integer>();
+        HashMap<String,Integer> hm = new HashMap<>();
         
-        for(int i=0;i<participant.length;i++){
-            if(part.containsKey(participant[i])){
-                part.replace(participant[i],part.get(participant[i])+1);
-            }else{
-                part.put(participant[i],1); 
-            }
+        for (String name : participant) {
+            hm.put(name, hm.getOrDefault(name, 0) + 1); //hm에 name이 없으면 value를 1로, 있으면 +1
         }
         
-        for(int i=0;i<completion.length;i++){
-            part.replace(completion[i], part.get(completion[i])-1);
-            //System.out.print(part.get(completion[i]));      
+        for (String name : completion) {
+            hm.replace(name, hm.get(name) - 1); // value 에서 -1
         }
         
-        for(String name : part.keySet()){
-            if(part.get(name)!=0){
-                return name;
+        for (String name : hm.keySet()){
+            if(hm.get(name)!=0){
+                answer = name;
             }
         }
         return answer;
