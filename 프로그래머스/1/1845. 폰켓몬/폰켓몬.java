@@ -3,16 +3,15 @@ import java.util.*;
 class Solution {
     public int solution(int[] nums) {
         int answer = 0;
-        int pick_num = nums.length/2;
-        HashSet<Integer> hs = new HashSet<>();
-        for (int i=0;i<nums.length;i++){
-           hs.add(nums[i]);
-        }
-        if(hs.size()>pick_num){
-            answer=pick_num;
-        }
-        else{
-            answer=hs.size();
+        int n = nums.length/2;
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        Arrays.sort(nums);
+        for(int i : nums){
+            if(answer>=n) return answer; 
+            if(! hm.containsKey(i)){
+                hm.put(i,1);
+                answer++;
+            }
         }
         return answer;
     }
