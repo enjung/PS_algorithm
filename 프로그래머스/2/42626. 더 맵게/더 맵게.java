@@ -2,35 +2,18 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] scoville, int K) {
-        int answer = 0;
-        int min1, min2,tmp = 0;
-        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        int cnt = 0;
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
         
-        //  힙 저장
-        for (int s : scoville) {
-           minHeap.add(s);
+        for(int i : scoville){
+            pq.add(i);
         }
         
-        while(minHeap.size()!=1){
-            if(minHeap.isEmpty()){
-                break;
-            }
-            if(minHeap.peek()>=K){
-                return answer;
-            }
-            min1 = minHeap.poll();
-            min2 = minHeap.poll();
-            tmp = min1 + min2*2;
-            minHeap.add(tmp);
-            answer++;
+        while(pq.size()>=2 && pq.peek()<K){
+            pq.add(pq.poll()+ 2*pq.poll());
+            cnt++;
         }
-        
-        if(minHeap.peek()<K){
-            return -1;
-        }
-        else{
-            return answer;
-        }
-        
+        if(pq.size()==1 && pq.peek()<K) return -1;
+        return cnt;
     }
 }
