@@ -2,48 +2,31 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        Queue<Integer> q = new LinkedList<>();
-        int size = progresses.length;
-        List<Integer> res = new ArrayList<>();
+        int n = progresses.length;
+        int[] days = new int[n];
         
-        for(int i=0; i<size; i++){
-            progresses[i]=100-progresses[i];
-            q.add((int)Math.ceil((double)progresses[i]/speeds[i])); 
-            //99/10일때 10을 얻으려면 (double)필수
+        for(int i=0;i<n;i++){
+            days[i] = (int)Math.ceil((double)(100-progresses[i])/speeds[i]);
         }
         
-    
-        
-        int cur = q.remove();
+        List<Integer> result = new ArrayList<>();
+        int tmp = days[0];
         int cnt = 1;
-        
-        while(!q.isEmpty()){
-            if(q.peek()<=cur){
-            //  다음 값이 더 작다면?
-                cnt++;
-                q.remove();
-                //cur은 원래 게 더 크므로 유지.
-            }
-            // 다음 값이 더 크다면?
-            // 지금까지 cnt를 answer에 저장하고 새로 시작
+        for(int i=1;i<n;i++){
+            if(days[i]<=tmp) cnt++;
             else{
-            
-                res.add(cnt);
-                //i++;
+                result.add(cnt);
+                tmp=days[i];
                 cnt=1;
-                cur=q.remove();
             }
-            
-            
         }
-        res.add(cnt);
+        result.add(cnt);
         
-        //List -> 배열
-        int[] answer = new int[res.size()];
-        for (int i = 0; i < res.size(); i++) {
-            answer[i] = res.get(i);
+        //List -> 배열 변환
+        int[] answer = new int[result.size()];
+        for (int i = 0; i < result.size(); i++) {
+            answer[i] = result.get(i);
         }
-
         
         return answer;
     }
