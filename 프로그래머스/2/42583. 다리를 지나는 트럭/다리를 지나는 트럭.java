@@ -2,41 +2,38 @@ import java.util.*;
 
 class Solution {
     public int solution(int bridge_length, int weight, int[] truck_weights) {
-        Queue<Integer> bridge = new LinkedList<>();
-        int time = 0;
         int totalWeight = 0;
-
-        for (int truck : truck_weights) {
-            // 1초 단위 시뮬레이션
-            while (true) {
-                // 다리가 비어있으면 바로 트럭 올림
-                if (bridge.isEmpty()) {
-                    bridge.offer(truck);
-                    totalWeight += truck;
+        int time = 0;
+        Queue<Integer> q = new LinkedList<>();
+        
+        for(int truck : truck_weights){
+            while(true){
+                //다리가 비어있을 때
+                if(q.isEmpty()){
+                    q.add(truck);
+                    totalWeight+=truck;
                     time++;
                     break;
                 }
-                // 다리가 꽉 찼을 경우 (bridge_length 초 유지됨)
-                else if (bridge.size() == bridge_length) {
-                    totalWeight -= bridge.poll();
+                //다리가 다 차있을 때
+                else if(q.size()==bridge_length){
+                    totalWeight -= q.remove();
                 }
-                // 무게 허용 시 트럭 추가
-                else {
-                    if (totalWeight + truck <= weight) {
-                        bridge.offer(truck);
+                //트럭 더 올릴 수 있으면 올리기
+                else{
+                    if(totalWeight+truck <= weight){
+                        q.add(truck);
                         totalWeight += truck;
                         time++;
                         break;
-                    } else {
-                        // 못 올라가면 빈 공간 채우기 (0 삽입)
-                        bridge.offer(0);
+                    }
+                    else{
                         time++;
+                        q.add(0);
                     }
                 }
             }
         }
-
-        // 마지막 트럭이 완전히 다리를 건너야 하므로 bridge_length 더함
-        return time + bridge_length;
+        return time+bridge_length;
     }
 }
