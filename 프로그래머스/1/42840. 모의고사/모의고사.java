@@ -2,33 +2,32 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] answers) {
-        int[] one = {1, 2, 3, 4, 5};
-        int[] two = {2, 1, 2, 3, 2, 4, 2, 5};
-        int[] three = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
-        
-        int[] answer = new int[3];
-        int idx=0;
-        int p=0;
-        int q=0;
-        int r=0;
-        int c1=0;
-        int c2=0;
-        int c3=0;
-        for(int i=0;i<answers.length;i++,p++,q++,r++){
-            if(p==5) p=0;
-            if(q==8) q=0;
-            if(r==10) r=0;
-            if(answers[i]==one[p]) c1++;
-            if(answers[i]==two[q]) c2++;
-            if(answers[i]==three[r]) c3++;
+        List<Integer> answer = new ArrayList<>();
+        int[] first = {1,2,3,4,5};
+        int[] second = {2,1,2,3,2,4,2,5};
+        int[] third = {3,3,1,1,2,2,4,4,5,5};
+        int[] score = new int[3];
+        int fi = 0;
+        int si = 0;
+        int ti = 0;
+        for(int n : answers){
+            if(fi>=5) fi=0;
+            if(si>=8) si=0;
+            if(ti>=10) ti=0;
+            
+            if(first[fi]==n) score[0]++;
+            if(second[si]==n) score[1]++;
+            if(third[ti]==n) score[2]++;
+            
+            fi++;
+            si++;
+            ti++;
         }
-        
-        int max = Math.max(c1,Math.max(c2,c3));
-        if(max==c1) answer[idx++]=1;
-        if(max==c2) answer[idx++]=2;
-        if(max==c3) answer[idx++]=3;
-        
-        //idx는 0이 아닌 값이 배열에 몇개 들어가있는지
-        return Arrays.copyOf(answer, idx);
+        int max = Math.max(score[0],Math.max(score[1],score[2]));
+        if(score[0]==max) answer.add(1);
+        if(score[1]==max) answer.add(2);
+        if(score[2]==max) answer.add(3);
+
+        return answer.stream().mapToInt(i -> i).toArray();
     }
 }
