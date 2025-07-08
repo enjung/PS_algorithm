@@ -2,22 +2,21 @@ import java.util.*;
 
 class Solution {
     Set<Integer> numbersSet = new HashSet<>();
+
     public int solution(String numbers) {
-        int cnt=0;
-        for (int i = 1; i <= numbers.length(); i++) {
-            boolean[] visited = new boolean[numbers.length()];
-            permutation(numbers, "", i, visited); //길이 i인 순열 만들기
+        for (int len = 1; len <= numbers.length(); len++) {
+            permutation(numbers, "", len, new boolean[numbers.length()]);
         }
 
+        int count = 0;
         for (int num : numbersSet) {
-            if (isPrime(num)) {
-               cnt++;
-            }
+            if (isPrime(num)) count++;
         }
-        return cnt;
+
+        return count;
     }
-    
-    //순열 만들기
+
+    // 순열 생성 함수 (백트래킹 방식)
     public void permutation(String numbers, String current, int targetLength, boolean[] visited) {
         if (current.length() == targetLength) {
             numbersSet.add(Integer.parseInt(current));
@@ -32,9 +31,8 @@ class Solution {
             }
         }
     }
-    
-    
-    //소수판별, 끝까지 안돌고 제곱근까지만 돌아도 소수판별가능!
+
+    // 소수 판별 함수
     public boolean isPrime(int n) {
         if (n <= 1) return false;
         for (int i = 2; i <= Math.sqrt(n); i++) {
