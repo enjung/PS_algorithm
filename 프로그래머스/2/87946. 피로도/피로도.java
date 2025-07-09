@@ -3,7 +3,7 @@ import java.util.*;
 class Solution {
     static int answer = 0;
     int[] visited;
-    
+
     public int solution(int k, int[][] dungeons) {
         visited = new int[dungeons.length];
         dfs(k,dungeons, 0);
