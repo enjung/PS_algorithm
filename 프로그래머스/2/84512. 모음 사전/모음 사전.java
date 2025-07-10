@@ -1,27 +1,29 @@
 import java.util.*;
 
 class Solution {
-    static String[] vowels = {"A", "E", "I", "O", "U"};
-    static int index = 0;
-    static int answer = 0;
+    String[] dic = {"A","E","I","O","U"};
+    int cnt = 0;
+    int answer = 0; 
     
     public int solution(String word) {
-        dfs("",word);
+        dfs(word,"");
         return answer;
     }
     
-    private void dfs(String current, String target) {
-        if (current.equals(target)) {
-            answer = index;
+    public void dfs(String word, String cur){
+        if(cur.length()>5) return;
+        
+        cnt++;
+        
+        if(cur.equals(word)) {
+            answer=cnt-1;
             return;
         }
-
-        index++;
-
-        if (current.length() == 5) return;
-
-        for (int i = 0; i < 5; i++) {
-            dfs(current + vowels[i], target);
+        
+        for(int i=0;i<5;i++){
+            dfs(word, cur+dic[i]);
+            if(answer!=0) return;
         }
+        
     }
 }
