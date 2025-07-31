@@ -1,32 +1,19 @@
-import java.io.*;
 import java.util.*;
 
 class Solution {
-    public static int[] numbers = new int[20];
-    public static int[] visited;
-    public static int target = 0;
-    public static int res = 0;
-    
-    public static void dfs(int i, int n, int sum){
-        if(i==n && sum==target){
-            res++;
-            return;
-        }
-        if(i==n && sum!=target) return;
-        
-        dfs(i+1,n,sum+numbers[i]);
-        dfs(i+1,n,sum-numbers[i]);
-    }
+    int answer = 0;
     
     public int solution(int[] numbers, int target) {
-        int n = numbers.length;
-        for(int i=0;i<n;i++){
-            Solution.numbers[i]=numbers[i];
+        dfs(numbers,target,0,0);
+        return answer;
+    }
+    
+    public void dfs(int[] numbers, int target, int index, int sum){
+        if(numbers.length==index){
+            if(sum==target) answer++;
+            return;
         }
-        
-        Solution.target = target;
-        System.out.println(Solution.target);
-        dfs(0,n,0);
-        return res;
+        dfs(numbers, target, index+1, sum+numbers[index]);
+        dfs(numbers, target, index+1, sum-numbers[index]);
     }
 }
