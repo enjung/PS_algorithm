@@ -1,40 +1,47 @@
 import java.util.*;
 
 class Solution {
-    static class Node{
+    static class Word{
         String word;
         int depth;
         
-        Node(String word, int depth){
-            this.word=word;
-            this.depth=depth;
+        Word(String word, int depth){
+            this.word = word;
+            this.depth = depth;
         }
     }
+    
     public int solution(String begin, String target, String[] words) {
-        int answer = 0;
-        Queue<Node> q = new LinkedList<>();
+        Queue<Word> q = new LinkedList<>();
         boolean[] visited = new boolean[words.length];
-        q.offer(new Node(begin,0));
-        //visited[]
+        
+        q.offer(new Word(begin,0));
         
         while(!q.isEmpty()){
-            Node cur = q.poll();
-            if(cur.word.equals(target)) return cur.depth;
+            Word cur = q.poll();
+            
+            if(cur.word.equals(target)){
+                return cur.depth;
+            }
+            
             for(int i=0;i<words.length;i++){
-                if(!visited[i]&&convertible(cur.word, words[i])){
-                    q.offer(new Node(words[i], cur.depth+1));
+                if(!visited[i] && isOneDiff(cur.word, words[i])){
                     visited[i]=true;
+                    q.offer(new Word(words[i], cur.depth+1));
                 }
             }
         }
-        return answer;
+        
+        return 0;
     }
-    public boolean convertible(String word1, String word2){
-        int dif=0;
-        for(int i=0;i<word1.length();i++){
-            if(word1.charAt(i) != word2.charAt(i)) dif++;
+    
+    public boolean isOneDiff(String a, String b){
+        int diff = 0;
+        for(int i=0;i<a.length();i++ ){
+            if(a.charAt(i)==b.charAt(i)) continue;
+            else diff++;
         }
-        if(dif==1) return true;
+        if(diff==1) return true;
         else return false;
     }
 }
