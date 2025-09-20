@@ -1,9 +1,9 @@
 import java.util.*;
 
 class Solution {
-    int answer = Integer.MAX_VALUE;
+    boolean[] visited;
     List<List<Integer>> graph = new ArrayList<>();
-    int[] visited;
+    int answer = Integer.MAX_VALUE;
     
     public int solution(int n, int[][] wires) {
         
@@ -11,48 +11,39 @@ class Solution {
             graph.add(new ArrayList<>());
         }
         
-        visited = new int[n+1];
-        
-        //연결정보
-        for(int[] wire: wires){
-            int a = wire[0];
-            int b = wire[1];
+        for(int[] w : wires){
+            int a = w[0];
+            int b = w[1];
             graph.get(a).add(b);
             graph.get(b).add(a);
         }
-    
-        //하나씩 끊어보기
-        for(int[] wire: wires){
-            int a = wire[0];
-            int b = wire[1];
+        for(int[] w : wires){
+            int a = w[0];
+            int b = w[1];
             graph.get(a).remove((Integer)b);
             graph.get(b).remove((Integer)a);
             
+            visited = new boolean[n+1];
+            int cnt = dfs(1);
+            int diff = Math.abs(cnt -(n-cnt));
+            answer = Math.min(answer,diff);
             
-            visited = new int[n+1];
-            //dfs로 덩어리 하나 사이즈 구하기
-            int cnt = dfs(1); //1번노드부터 시작한 사이즈
-            
-            //정답 업데이트
-            int dif= Math.abs(cnt-(n-cnt));
-            answer = Math.min(answer,dif);
-            
-            //끊은 전선 복구
             graph.get(a).add(b);
             graph.get(b).add(a);
+            
         }
         return answer;
     }
     
-    public int dfs(int k){
-        int count = 1;
-        visited[k]=1;
-        
-        for(int node : graph.get(k)){
-            if(visited[node]==0){
-                count += dfs(node);
+    
+    public int dfs(int node){
+        visited[node] = true;
+        int cnt = 1;
+        for(int next : graph.get(node)){
+            if(!visited[next]){
+                cnt += dfs(next); 
             }
         }
-        return count;
+        return cnt;
     }
 }
