@@ -2,43 +2,45 @@ import java.util.*;
 
 class Solution {
     public int solution(int m, int n, int[][] puddles) {
-        int[][]dp = new int[n+1][m+1];
-        //dp[1][1]=1;
-        
+        int answer = 0;
+        int[][] dp = new int[n+1][m+1];
+        //dp[1][1] = 1;
         for(int i=1;i<=n;i++){
             for(int j=1;j<=m;j++){
                 if(i==1&&j==1){
                     dp[1][1]=1;
                     continue;
                 }
-                
-                //웅덩이칸인지 검사
                 boolean isPuddle = false;
                 for(int[] puddle : puddles){
-                    if(puddle[0]==j && puddle[1]==i){
+                    if(j==puddle[0]&& i==puddle[1]){
                         isPuddle = true;
                         break;
                     }
                 }
-                //웅덩이 칸이면,
-                if(isPuddle){
+                int len = 0;
+                if(isPuddle) {
                     dp[i][j]=0;
                     continue;
                 }
-                
-                int ways = 0;
-                //아래로 이동한 경우
-                if(i>1){
-                    ways += dp[i-1][j];
-                }
-                //오른쪽으로 이동한 경우
+                //오른쪽 이동
                 if(j>1){
-                    ways += dp[i][j-1];
+                    len += dp[i][j-1];
                 }
-                
-                dp[i][j] = ways % 1000000007;
+                //아래로 이동
+                if(i>1){
+                    len += dp[i-1][j];
+                }
+                dp[i][j] = len%1000000007;
             }
         }
+        // for(int i=1;i<=n;i++){
+        //     for(int j=1;j<=m;j++){
+        //         System.out.print(dp[i][j]);
+        //     }
+        //     System.out.println("");
+        // }
         return dp[n][m];
     }
 }
+
