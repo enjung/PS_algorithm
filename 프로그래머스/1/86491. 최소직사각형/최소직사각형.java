@@ -2,15 +2,14 @@ import java.util.*;
 
 class Solution {
     public int solution(int[][] sizes) {
-        int answer = 0;
-        int maxW = 0;
-        int maxH = 0;
-        for(int[] s : sizes){
-            int w = Math.max(s[0],s[1]); //긴 변
-            int h = Math.min(s[0],s[1]); //짧은 변
-            if(maxW<w) maxW=w;
-            if(maxH<h) maxH=h;
+        int maxX=0;
+        int maxY=0;
+        for(int[]size : sizes){
+            int x = Math.max(size[0],size[1]); //긴 변
+            int y = Math.min(size[0],size[1]); //짧은 변
+            maxX = Math.max(x,maxX);
+            maxY = Math.max(y,maxY);
         }
-        return maxW*maxH;
+        return maxX*maxY;
     }
 }
