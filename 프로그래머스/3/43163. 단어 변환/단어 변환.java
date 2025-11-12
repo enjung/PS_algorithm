@@ -1,47 +1,41 @@
 import java.util.*;
 
 class Solution {
-    static class Word{
-        String word;
-        int depth;
-        
-        Word(String word, int depth){
-            this.word = word;
-            this.depth = depth;
-        }
-    }
-    
     public int solution(String begin, String target, String[] words) {
-        Queue<Word> q = new LinkedList<>();
+        int answer = 0;
         boolean[] visited = new boolean[words.length];
+        Queue<String> q = new LinkedList<>();
+        q.add(begin);
+        String word = begin;
         
-        q.offer(new Word(begin,0));
-        
+        int depth = 0;
         while(!q.isEmpty()){
-            Word cur = q.poll();
+            int size = q.size();
             
-            if(cur.word.equals(target)){
-                return cur.depth;
-            }
+            for(int s=0;s<size;s++){
+                word = q.poll();
+                if(word.equals(target)) return answer;
             
-            for(int i=0;i<words.length;i++){
-                if(!visited[i] && isOneDiff(cur.word, words[i])){
-                    visited[i]=true;
-                    q.offer(new Word(words[i], cur.depth+1));
+                for(int i=0;i<words.length;i++){
+                    if(!visited[i] && isOneDif(word,words[i])){
+                        visited[i]=true;
+                        q.add(words[i]);
+                    }
                 }
             }
+            answer++;
         }
-        
         return 0;
+        
     }
     
-    public boolean isOneDiff(String a, String b){
-        int diff = 0;
-        for(int i=0;i<a.length();i++ ){
-            if(a.charAt(i)==b.charAt(i)) continue;
-            else diff++;
+    
+    public boolean isOneDif(String word1, String word2){
+        int cnt = 0;
+        for(int i=0;i<word1.length();i++){
+            if(word1.charAt(i)!=word2.charAt(i)) cnt++;
         }
-        if(diff==1) return true;
+        if(cnt==1) return true;
         else return false;
     }
 }
